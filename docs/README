@@ -1,0 +1,15 @@
+libPKG
+======
+
+Package library.
+
+License
+=======
+
+Copyright (c) 2014 Ole Andre Rodlie <olear@dracolinux.org>. All rights reserved.
+
+libPKG is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License version 2.1.
+
+libPKG is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+You should have received a copy of the GNU Lesser General Public License version 2.1 along with libPKG.  If not, see <http://www.gnu.org/licenses/>.
