@@ -1,7 +1,7 @@
-libPKG
+SysPKG
 ======
 
-cross-plattform source and binary package management tools. Rewrite of DracoPKG/UserPKG.
+cross-plattform source and binary package management tools.
 
 Requirements
 ============
