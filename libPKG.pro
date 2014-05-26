@@ -7,11 +7,11 @@ isEmpty(PREFIX) {
 }
 
 isEmpty(LIBDIR) {
-        LIBDIR                               = $${PREFIX}/lib$${LIBSUFFIX}
+    LIBDIR                                   = $${PREFIX}/lib$${LIBSUFFIX}
 }
 
 isEmpty(INCLUDEDIR) {
-    INCLUDEDIR                   = $${PREFIX}/include
+    INCLUDEDIR                               = $${PREFIX}/include
 }
 
 isEmpty(DOCDIR) {
