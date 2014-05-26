@@ -8,15 +8,15 @@ QT       += network
 
 QT       -= gui
 
-TARGET = libPKG
+TARGET = PKG
 TEMPLATE = lib
 
 DEFINES += LIBPKG_LIBRARY
 
-SOURCES += pkg.cpp
+SOURCES += source/pkg.cpp
 
-HEADERS += pkg.h\
-        libPKG_global.h
+HEADERS += include/pkg.h\
+        include/libPKG_global.h
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN
