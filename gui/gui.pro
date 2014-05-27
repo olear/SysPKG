@@ -37,7 +37,7 @@ OBJECTS_DIR                                  = $${DESTDIR}/.obj
 MOC_DIR                                      = $${DESTDIR}/.moc
 
 target.path                                  = $${BINDIR}
-target_docs.path                             = $${DOCDIR}/$${TEMPLATE}$${TARGET}-$${VERSION}
+target_docs.path                             = $${DOCDIR}/$${TARGET}-$${VERSION}
 target_docs.files                            = docs/README docs/COPYING
 
 INSTALLS                                    += target target_docs
