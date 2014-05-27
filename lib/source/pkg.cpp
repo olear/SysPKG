@@ -85,7 +85,7 @@ QString PKG::_make()
         return "/usr/pkg/bin/bmake";
 }
 
-QStringList PKG::_installed()
+QStringList PKG::_installed_packages()
 {
     QStringList pkg_info_result;
     QString pkg_info_path = _tools()+"/pkg_info";
@@ -138,8 +138,10 @@ QString PKG::_info(QString pkg, QString cat)
         if (work_dir.exists() && !_make().isEmpty()) {
             QString pkg_name;
             QString pkg_version;
-            QString pkg_depends;
-            QString pkg_options;
+            //QString pkg_depends;
+            //QString pkg_options;
+            //QString pkg_comment;
+            //QString pkg_description;
 
             QProcessEnvironment env_name = QProcessEnvironment::systemEnvironment();
             env_name.insert("VARNAME","PKGBASE");
@@ -150,8 +152,8 @@ QString PKG::_info(QString pkg, QString cat)
             QStringList show_var;
             show_var << "show-var";
 
-            QStringList show_depends;
-            show_depends << "show-depends";
+            //QStringList show_depends;
+            //show_depends << "show-depends";
 
             QProcess pkg_info_proc;
             pkg_info_proc.setProcessChannelMode(QProcess::MergedChannels);
@@ -173,7 +175,7 @@ QString PKG::_info(QString pkg, QString cat)
                 result.append("PKGNAME="+pkg_name.simplified()+"-"+pkg_version.simplified()+"\n");
             }
 
-            pkg_info_proc.start(_make(),show_depends);
+            /*pkg_info_proc.start(_make(),show_depends);
             pkg_info_proc.waitForFinished(-1);
             pkg_depends = pkg_info_proc.readAll();
             pkg_info_proc.close();
@@ -182,8 +184,85 @@ QString PKG::_info(QString pkg, QString cat)
             for (int i = 0; i < pkg_depends_list.size(); ++i) {
                 if (!pkg_depends_list.at(i).isEmpty())
                     result.append("DEPENDS="+pkg_depends_list.at(i)+"\n");
+            }*/
+
+            QFile pkg_Makefile(work_path+"/Makefile");
+            if (pkg_Makefile.exists()) {
+                if (pkg_Makefile.open(QIODevice::ReadOnly)) {
+                    QTextStream stream(&pkg_Makefile);
+                    QString line;
+                    do {
+                        line = stream.readLine();
+                        if (line.contains("COMMENT="))
+                            result.append(line.simplified()+"\n");
+                    } while (!line.isNull());
+                    pkg_Makefile.close();
+                }
             }
         }
     }
     return result;
+}
+
+QStringList PKG::_available_local_packages(QString cat, QString search)
+{
+    QStringList output;
+    QString workdir = _home()+"/pkgsrc";
+    QString searchdir = workdir;
+
+    if (!cat.isEmpty()) {
+        workdir = workdir+"/"+cat;
+    }
+
+    if (!search.isEmpty()) {
+        QStringList categories = _available_local_categories();
+        for (int i = 0; i < categories.size(); ++i) {
+            QDir pkgsrc(searchdir+"/"+categories.at(i));
+            QFileInfoList pkgsrcList(pkgsrc.entryInfoList(QDir::NoDotAndDotDot|QDir::AllDirs));
+            foreach (QFileInfo folder, pkgsrcList) {
+                if (folder.isDir()) {
+                    QFile Makefile(folder.filePath()+"/Makefile");
+                    if (Makefile.exists(folder.filePath()+"/Makefile") && folder.fileName().contains(search)) {
+                        output << categories.at(i)+"|"+folder.fileName();
+                    }
+                }
+            }
+        }
+    }
+    else {
+        QDir pkgsrc(workdir);
+        QFileInfoList pkgsrcList(pkgsrc.entryInfoList(QDir::NoDotAndDotDot|QDir::AllDirs));
+        foreach (QFileInfo folder, pkgsrcList) {
+            if (folder.isDir()) {
+                QFile Makefile(folder.filePath()+"/Makefile");
+                if (Makefile.exists(folder.filePath()+"/Makefile")) {
+                    if (!cat.isEmpty()) {
+                        output << cat+"|"+folder.fileName();
+                    }
+                    else {
+                        output << folder.fileName();
+                    }
+                }
+            }
+        }
+    }
+    return output;
+}
+
+QStringList PKG::_available_local_categories()
+{
+    QStringList output;
+    QString work_path = _home()+"/pkgsrc";
+    QDir pkgsrc(work_path);
+    QFileInfoList pkgsrcList(pkgsrc.entryInfoList(QDir::NoDotAndDotDot|QDir::AllDirs));
+    foreach (QFileInfo folder, pkgsrcList) {
+        if (folder.isDir()) {
+            if (folder.baseName()!= "regress") {
+                QFile Makefile;
+                if (Makefile.exists(folder.filePath()+"/Makefile"))
+                    output << folder.fileName();
+            }
+        }
+    }
+    return output;
 }

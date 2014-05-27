@@ -12,9 +12,12 @@ PKGui::PKGui(QWidget *parent) :
     qDebug() << pkg._make();
     qDebug() << pkg._tmp();
     qDebug() << pkg._tools();
-    qDebug() << pkg._installed();
+    qDebug() << pkg._installed_packages();
     qDebug() << pkg._info("gimp","");
-    qDebug() << pkg._info("joe","editors");
+    qDebug() << pkg._info("gimp","graphics");
+    qDebug() << pkg._available_local_categories();
+    qDebug() << pkg._available_local_packages("graphics","");
+    qDebug() << pkg._available_local_packages("","gimp");
 }
 
 PKGui::~PKGui()

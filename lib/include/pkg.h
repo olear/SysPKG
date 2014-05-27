@@ -12,6 +12,7 @@
 #include <QProcessEnvironment>
 #include <QFile>
 #include <QDir>
+#include <QTextStream>
 
 class LIBPKGSHARED_EXPORT PKG
 {
@@ -23,8 +24,10 @@ public slots:
     QString _db();
     QString _tools();
     QString _make();
-    QStringList _installed();
+    QStringList _installed_packages();
     QString _info(QString pkg, QString cat);
+    QStringList _available_local_packages(QString cat, QString search);
+    QStringList _available_local_categories();
 };
 
 #endif // PKG_H
