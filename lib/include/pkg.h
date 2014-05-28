@@ -7,27 +7,13 @@
 #define PKG_H
 
 #include "libPKG_global.h"
-#include <QStringList>
-#include <QProcess>
-#include <QProcessEnvironment>
-#include <QFile>
-#include <QDir>
-#include <QTextStream>
+#include "common.h"
 
 class LIBPKGSHARED_EXPORT PKG
 {
 public:
     PKG();
-public slots:
-    QString _tmp();
-    QString _home();
-    QString _db();
-    QString _tools();
-    QString _make();
-    QStringList _installed_packages();
-    QString _info(QString pkg, QString cat);
-    QStringList _available_local_packages(QString cat, QString search);
-    QStringList _available_local_categories();
+    Common common;
 };
 
 #endif // PKG_H

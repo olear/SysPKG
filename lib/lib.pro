@@ -24,8 +24,10 @@ VERSION                                      = 1.0.0
 TARGET                                       = PKG
 TEMPLATE                                     = lib
 DEFINES                                     += LIBPKG_LIBRARY
-SOURCES                                     += source/pkg.cpp
-HEADERS                                     += include/pkg.h include/libPKG_global.h
+SOURCES                                     += source/pkg.cpp \
+    source/common.cpp
+HEADERS                                     += include/pkg.h include/libPKG_global.h \
+    include/common.h
 DESTDIR                                      = build
 OBJECTS_DIR                                  = $${DESTDIR}/.obj
 MOC_DIR                                      = $${DESTDIR}/.moc
