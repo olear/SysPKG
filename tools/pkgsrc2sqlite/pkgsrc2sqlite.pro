@@ -21,6 +21,11 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
+DESTDIR                                      = build
+OBJECTS_DIR                                  = $${DESTDIR}/.obj
+MOC_DIR                                      = $${DESTDIR}/.moc
+QMAKE_CLEAN                                 += -r $${DESTDIR} Makefile
+
 INCLUDEPATH                         += "../../lib/include"
 LIBS                                += -L"../../lib/build"
 LIBS+="-lPKG"
